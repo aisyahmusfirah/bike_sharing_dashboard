@@ -10,11 +10,11 @@ st.title("Dashboard Analisis Data: Bike Sharing Dataset")
 st.header("Exploratory Data Analysis (EDA)")
 
 # Load Data
-file_path = "C:/Users/User/OneDrive/Desktop/Dicoding Spaces/data_analysis_project/data/day.csv"
+file_path = "day.csv"
 
 @st.cache
-def load_data(filepath):
-    data = pd.read_csv(filepath)
+def load_data(file_path):
+    data = pd.read_csv(file_path)
     data = data.rename(columns={
         'yr': 'year',
         'mnth': 'month',
