@@ -10,7 +10,7 @@ st.title("Dashboard Analisis Data: Bike Sharing Dataset")
 st.header("Exploratory Data Analysis (EDA)")
 
 # Load Data
-file_path = "day.csv"
+file_path = "data/day.csv"
 
 @st.cache
 def load_data(file_path):
