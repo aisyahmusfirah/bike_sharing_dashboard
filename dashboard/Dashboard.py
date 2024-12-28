@@ -28,7 +28,14 @@ def load_data(file_path):
 
 data = load_data(file_path)
 
-# Filtering berdasarkan cuaca (weather)
+# Menampilkan dataset yang sudah di-describe
+st.header("Statistik Deskriptif dari Dataset")
+st.dataframe(data.describe())
+
+# Pertanyaan 1: Analisis berdasarkan cuaca yang dipilih
+st.subheader(f"1. Pengaruh Cuaca terhadap Penyewaan Sepeda")
+
+# Pilihan cuaca (weather)
 weather_options = {
     1: 'Cerah',
     2: 'Berawan',
@@ -46,16 +53,15 @@ selected_weather = st.selectbox(
 weather_code = {v: k for k, v in weather_options.items()}
 filtered_data = data[data['weather'] == weather_code[selected_weather]]
 
-# Pertanyaan 1: Analisis berdasarkan cuaca yang dipilih
-st.subheader(f"1. Pengaruh Cuaca ({selected_weather}) terhadap Penyewaan Sepeda")
+filtered_data["season_name"] = filtered_data["season"].map({1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'})
 
 # Plot boxplot berdasarkan cuaca yang dipilih
 plt.figure(figsize=(10, 6))
-sns.boxplot(data=filtered_data, x="weather", y="count")
+sns.boxplot(data=filtered_data, x="weather", y="count", width=0.5)
 plt.title(f"Pengaruh Cuaca {selected_weather} terhadap Jumlah Penyewaan Sepeda", fontsize=14)
 plt.xlabel("Cuaca", fontsize=12)
 plt.ylabel("Jumlah Penyewaan Sepeda", fontsize=12)
-plt.xticks(ticks=[0, 1, 2, 3], labels=["Cerah", "Berawan", "Hujan Ringan", "Hujan Deras"])
+# Tampilkan plot di Streamlit
 st.pyplot(plt)
 
 # Pertanyaan 2: Rata-rata penyewaan sepeda berdasarkan musim
@@ -65,8 +71,9 @@ st.subheader("2. Rata-rata Penyewaan Sepeda Berdasarkan Musim")
 data['season_name'] = data['season'].map({1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'})
 
 # Membuat plot rata-rata penyewaan sepeda per musim
+plt.figure(figsize=(10, 6))
 sns.barplot(
-    data=filtered_data, 
+    data=data, 
     x="season_name", 
     y="count", 
     estimator="mean",
@@ -76,10 +83,16 @@ sns.barplot(
 plt.title("Rata-rata Penggunaan Sepeda di Setiap Musim")
 plt.xlabel("Musim")
 plt.ylabel("Jumlah Penggunaan Sepeda (Rata-rata)")
+
+# Tampilkan plot di Streamlit
 st.pyplot(plt)
 
+# Kesimpulan
 st.write("Kesimpulan:")
 st.markdown(""" 
-- Terdapat perbedaan jumlah penyewaan berdasarkan cuaca
-- Cuaca cerah cenderung memiliki jumlah penyewaan yang lebih tinggi dibandingkan cuaca lainnya
-""")
+- **Pertanyaan 1:** Cuaca memiliki pengaruh signifikan terhadap jumlah penyewaan sepeda. Cuaca cerah (Clear) cenderung memiliki jumlah penyewaan tertinggi, sementara cuaca hujan deras (Heavy Rain) memiliki jumlah penyewaan terendah. Kondisi cuaca seperti hujan ringan (Light Snow/Rain) dan berawan (Mist/Cloudy) berada di antara keduanya. Hal ini menunjukkan bahwa masyarakat cenderung lebih memilih menggunakan layanan bike sharing saat cuaca cerah dan menghindari penggunaannya saat cuaca buruk.
+            
+- **Pertanyaan 2:** Terdapat variasi jumlah penyewaan sepeda di setiap musim. Musim gugur (Fall) memiliki rata-rata penyewaan sepeda tertinggi, diikuti oleh musim panas (Summer), musim dingin (Winter), dan terakhir musim semi (Spring) dengan rata-rata penyewaan terendah. Hal ini menunjukkan bahwa faktor musim memiliki pengaruh terhadap minat masyarakat dalam menggunakan layanan bike sharing.
+            """)
+
+
