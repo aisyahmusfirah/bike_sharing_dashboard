@@ -28,14 +28,45 @@ def load_data(file_path):
 
 data = load_data(file_path)
 
-# Pertanyaan 1
-st.subheader("1. Bagaimana rata-rata penyewaan sepeda berdasarkan musim?")
+# Filtering berdasarkan cuaca (weather)
+weather_options = {
+    1: 'Cerah',
+    2: 'Berawan',
+    3: 'Hujan Ringan',
+    4: 'Hujan Deras'
+}
+
+# Dropdown untuk memilih cuaca
+selected_weather = st.selectbox(
+    "Pilih Cuaca untuk Filter Data:",
+    options=list(weather_options.values())
+)
+
+# Mapping weather ke kode numerik
+weather_code = {v: k for k, v in weather_options.items()}
+filtered_data = data[data['weather'] == weather_code[selected_weather]]
+
+# Pertanyaan 1: Analisis berdasarkan cuaca yang dipilih
+st.subheader(f"1. Pengaruh Cuaca ({selected_weather}) terhadap Penyewaan Sepeda")
+
+# Plot boxplot berdasarkan cuaca yang dipilih
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=filtered_data, x="weather", y="count")
+plt.title(f"Pengaruh Cuaca {selected_weather} terhadap Jumlah Penyewaan Sepeda", fontsize=14)
+plt.xlabel("Cuaca", fontsize=12)
+plt.ylabel("Jumlah Penyewaan Sepeda", fontsize=12)
+plt.xticks(ticks=[0, 1, 2, 3], labels=["Cerah", "Berawan", "Hujan Ringan", "Hujan Deras"])
+st.pyplot(plt)
+
+# Pertanyaan 2: Rata-rata penyewaan sepeda berdasarkan musim
+st.subheader("2. Rata-rata Penyewaan Sepeda Berdasarkan Musim")
+
 # Mapping season ke nama musim
 data['season_name'] = data['season'].map({1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'})
 
-# Membuat plot
+# Membuat plot rata-rata penyewaan sepeda per musim
 sns.barplot(
-    data=data, 
+    data=filtered_data, 
     x="season_name", 
     y="count", 
     estimator="mean",
@@ -45,27 +76,10 @@ sns.barplot(
 plt.title("Rata-rata Penggunaan Sepeda di Setiap Musim")
 plt.xlabel("Musim")
 plt.ylabel("Jumlah Penggunaan Sepeda (Rata-rata)")
-plt.show()
+st.pyplot(plt)
 
 st.write("Kesimpulan:")
-st.markdown("""
-- Terdapat perbedaan jumlah penyewaan tiap musim
-- Musim gugur (fall) memiliki jumlah penyewaan tertinggi dibanding musim lainnya
-- Musim semi (spring) memiliki jumlah penyewaan paling rendah
-            """)
- 
-# Pertanyaan 2
-# Boxplot jumlah penyewaan berdasarkan cuaca
-plt.figure(figsize=(10, 6))
-sns.boxplot(data=data, x="weather", y="count")
-plt.title("Pengaruh Cuaca terhadap Jumlah Penyewaan Sepeda", fontsize=14)
-plt.xlabel("Cuaca (weather)", fontsize=12)
-plt.ylabel("Jumlah Penyewaan (count)", fontsize=12)
-plt.xticks(ticks=[0, 1, 2, 3], labels=["Cerah", "Berawan", "Hujan Ringan", "Hujan Deras"])
-plt.show()
-
-st.write("Kesimpulan:")
-st.markdown("""
-- Boxplot menunjukkan bahwa cuaca cerah cenderung memiliki jumlah penyewaan sepeda yang lebih tinggi dan lebih bervariasi dibandingkan cuaca lainnya
-- Cuaca hujan deras cenderung memiliki jumlah penyewaan terendah
+st.markdown(""" 
+- Terdapat perbedaan jumlah penyewaan berdasarkan cuaca
+- Cuaca cerah cenderung memiliki jumlah penyewaan yang lebih tinggi dibandingkan cuaca lainnya
 """)
