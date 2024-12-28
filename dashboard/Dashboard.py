@@ -28,40 +28,44 @@ def load_data(file_path):
 
 data = load_data(file_path)
 
-# 1. Pengaruh Kecepatan Angin terhadap Jumlah Penyewaan Sepeda
-st.subheader("1. Pengaruh Kecepatan Angin terhadap Jumlah Penyewaan Sepeda")
-fig1, ax1 = plt.subplots(figsize=(10, 6))
-sns.scatterplot(x='windspeed', y='count', data=data, alpha=0.6, color='blue', ax=ax1)
-ax1.set_title('Effect of Windspeed on Bike Rentals', fontsize=14)
-ax1.set_xlabel('Windspeed', fontsize=12)
-ax1.set_ylabel('Total Rentals (count)', fontsize=12)
-st.pyplot(fig1)
+# Pertanyaan 1
+st.subheader("1. Bagaimana rata-rata penyewaan sepeda berdasarkan musim?")
+# Mapping season ke nama musim
+data['season_name'] = data['season'].map({1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'})
 
-correlation = data['windspeed'].corr(data['count'])
-st.write(f"Korelasi antara kecepatan angin dan jumlah penyewaan sepeda: {correlation:.2f}")
+# Membuat plot
+sns.barplot(
+    data=data, 
+    x="season_name", 
+    y="count", 
+    estimator="mean",
+    ci=None, 
+    palette="coolwarm"
+)
+plt.title("Rata-rata Penggunaan Sepeda di Setiap Musim")
+plt.xlabel("Musim")
+plt.ylabel("Jumlah Penggunaan Sepeda (Rata-rata)")
+plt.show()
 
 st.write("Kesimpulan:")
 st.markdown("""
-Terdapat hubungan negatif yang lemah antara kecepatan angin dan jumlah penyewaan sepeda. Artinya jumlah penyewaan sepeda berkurang ketika
-            angin berhembus kencang, namun pengaruhnya tidak terlalu signifikan.
+- Terdapat perbedaan jumlah penyewaan tiap musim
+- Musim gugur (fall) memiliki jumlah penyewaan tertinggi dibanding musim lainnya
+- Musim semi (spring) memiliki jumlah penyewaan paling rendah
             """)
  
-# 2. Pengaruh Musim terhadap Jumlah Penyewaan Sepeda
-st.subheader("2. Pengaruh Musim terhadap Jumlah Penyewaan Sepeda")
-season_labels = {1: 'Winter', 2: 'Spring', 3: 'Summer', 4: 'Fall'}
-data['season_label'] = data['season'].map(season_labels)
-
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-sns.boxplot(x='season_label', y='count', data=data, ax=ax2)
-ax2.set_title('Penyewaan Sepeda Berdasarkan Musim', fontsize=14)
-ax2.set_xlabel('Musim', fontsize=12)
-ax2.set_ylabel('Jumlah Penyewaan', fontsize=12)
-st.pyplot(fig2)
+# Pertanyaan 2
+# Boxplot jumlah penyewaan berdasarkan cuaca
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=data, x="weather", y="count")
+plt.title("Pengaruh Cuaca terhadap Jumlah Penyewaan Sepeda", fontsize=14)
+plt.xlabel("Cuaca (weather)", fontsize=12)
+plt.ylabel("Jumlah Penyewaan (count)", fontsize=12)
+plt.xticks(ticks=[0, 1, 2, 3], labels=["Cerah", "Berawan", "Hujan Ringan", "Hujan Deras"])
+plt.show()
 
 st.write("Kesimpulan:")
 st.markdown("""
-Musim berpengaruh terhadap jumlah penyewaan sepeda. 
-            Musim panas dan musim gugur memiliki jumlah penyewaan lebih tinggi dibanding musim lain.
-            Dalam artian pelanggan lebih menyukai bersepeda ketika musim panas dan musim gugur, dan
-            menghindari bersepeda ketika musim dingin dan musim semi.
+- Boxplot menunjukkan bahwa cuaca cerah cenderung memiliki jumlah penyewaan sepeda yang lebih tinggi dan lebih bervariasi dibandingkan cuaca lainnya
+- Cuaca hujan deras cenderung memiliki jumlah penyewaan terendah
 """)
