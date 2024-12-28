@@ -5,4 +5,4 @@ conda activate main-ds\
 pip install -r requirements.txt
 
 ## Run the app
-streamlit run Dashboard.py
+streamlit run dashboard/Dashboard.py
