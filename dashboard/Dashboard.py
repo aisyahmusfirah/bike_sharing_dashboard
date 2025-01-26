@@ -95,9 +95,9 @@ st.pyplot(plt)
 # Kesimpulan
 st.write("Kesimpulan:")
 st.markdown(""" 
-- **Pertanyaan 1:** Cuaca memiliki pengaruh signifikan terhadap jumlah penyewaan sepeda. Cuaca cerah (Clear) cenderung memiliki jumlah penyewaan tertinggi, sementara cuaca hujan deras (Heavy Rain) memiliki jumlah penyewaan terendah. Kondisi cuaca seperti hujan ringan (Light Snow/Rain) dan berawan (Mist/Cloudy) berada di antara keduanya. Hal ini menunjukkan bahwa masyarakat cenderung lebih memilih menggunakan layanan bike sharing saat cuaca cerah dan menghindari penggunaannya saat cuaca buruk.
+- **Pertanyaan 1:** Cuaca cerah (Clear) cenderung memiliki jumlah penyewaan tertinggi, sementara cuaca hujan deras (Heavy Rain) memiliki jumlah penyewaan terendah. Kondisi cuaca seperti hujan ringan (Light Snow/Rain) dan berawan (Mist/Cloudy) berada di antara keduanya. Hal ini menunjukkan bahwa masyarakat cenderung lebih memilih menggunakan layanan bike sharing saat cuaca cerah dan menghindari penggunaannya saat cuaca buruk.
             
-- **Pertanyaan 2:** Terdapat variasi jumlah penyewaan sepeda di setiap musim. Musim gugur (Fall) memiliki rata-rata penyewaan sepeda tertinggi, diikuti oleh musim panas (Summer), musim dingin (Winter), dan terakhir musim semi (Spring) dengan rata-rata penyewaan terendah. Hal ini menunjukkan bahwa faktor musim memiliki pengaruh terhadap minat masyarakat dalam menggunakan layanan bike sharing.
+- **Pertanyaan 2:** Musim gugur (Fall) memiliki rata-rata penyewaan sepeda tertinggi, diikuti oleh musim panas (Summer), musim dingin (Winter), dan terakhir musim semi (Spring) dengan rata-rata penyewaan terendah. Hal ini menunjukkan bahwa faktor musim memiliki pengaruh terhadap minat masyarakat dalam menggunakan layanan bike sharing.
             """)
 
 
