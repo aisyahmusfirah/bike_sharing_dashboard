@@ -37,6 +37,7 @@ st.subheader(f"1. Pengaruh Cuaca terhadap Penyewaan Sepeda")
 
 # Pilihan cuaca (weather)
 weather_options = {
+    0: 'All Weather',
     1: 'Cerah',
     2: 'Berawan',
     3: 'Hujan Ringan',
@@ -51,9 +52,13 @@ selected_weather = st.selectbox(
 
 # Mapping weather ke kode numerik
 weather_code = {v: k for k, v in weather_options.items()}
-filtered_data = data[data['weather'] == weather_code[selected_weather]]
 
-filtered_data["season_name"] = filtered_data["season"].map({1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'})
+if weather_code[selected_weather] == 0:  # Jika "All Weather" dipilih
+    filtered_data = data
+    st.write("Menampilkan semua data cuaca.")
+else:
+    filtered_data = data[data['weather'] == weather_code[selected_weather]]
+    st.write(f"Menampilkan data untuk cuaca: {selected_weather}")
 
 # Plot boxplot berdasarkan cuaca yang dipilih
 plt.figure(figsize=(10, 6))
